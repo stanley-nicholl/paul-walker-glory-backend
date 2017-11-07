@@ -1,4 +1,5 @@
 const model = require('../models/movies')
+const fields = ['title', 'director', 'year', 'rating', 'posterURL']
 
 function getAll(req, res, next) {
   model.getAll().then(movies => {
@@ -35,5 +36,44 @@ function destroy (req, res, next) {
   })
 }
 
+function doesItExist (req, res, next) {
+  let movie
+  const id = req.params.id
+  model.getOne(id).then(result => {
+    movie = result
+  })
+  // console.log(movie);
+  // if(!movie){
+  //   const status = 404
+  //   const message = `Movie with id ${id} could not be found`
+  //   next({ status, message })
+  // }
 
-module.exports = { getAll, getOne, create, update, destroy }
+  next()
+}
+
+function cleanse (req, res, next) {
+  Object.keys(req.body).forEach(key => {
+    if(!fields.includes(key)) delete req.body[key]
+  })
+
+  next()
+}
+
+function complete (req, res, next) {
+  const errors = fields.filter(field => !req.body[field])
+    .map(value => `${id} is required`)
+
+  if(errors.length){
+    const status = 400
+    const message = `Fields are missing: ${errors.join(', ')}`
+    next({ status, message })
+  }
+
+  next()
+}
+
+module.exports = {
+  getAll, getOne, create, update, destroy,
+  validations: { doesItExist, cleanse, complete }
+ }

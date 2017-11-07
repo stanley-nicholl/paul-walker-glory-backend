@@ -7,6 +7,8 @@ exports.up = knex => {
     table.integer('year').notNullable().defaultTo(0)
     table.integer('rating').notNullable().defaultTo(0)
     table.string('posterURL').notNullable().defaultTo('')
+    table.text('storyline').notNullable().defaultTo('')
+    table.text('trailerEmbed').notNullable().defaultTo('')
     table.timestamps(true, true)
   })
 };

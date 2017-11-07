@@ -2,6 +2,8 @@ const path = require('path')
 const env = process.env.NODE_ENV || 'development'
 const knex = require('../db/db')
 
+
+
 function _all () {
   return knex('movies')
 }
@@ -41,4 +43,4 @@ function destroy (id) {
     .del()
 }
 
-module.exports = { getAll, getOne, create, update, destroy }
+module.exports = { getAll, getOne, create, update, destroy, _findById }
