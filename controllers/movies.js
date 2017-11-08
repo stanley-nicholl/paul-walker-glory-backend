@@ -25,6 +25,7 @@ function update(req, res, next) {
   const id = req.params.id
   const body = req.body
   model.update(id, body).then(movie => {
+    console.log('test');
     res.status(200).json({ movie })
   })
 }
@@ -37,19 +38,18 @@ function destroy (req, res, next) {
 }
 
 function doesItExist (req, res, next) {
-  let movie
   const id = req.params.id
-  model.getOne(id).then(result => {
-    movie = result
+  console.log('before then');
+  model.getOne(id).then(movie => {
+    if(movie.length){
+      console.log('short');
+      next()
+    }else{
+      const status = 404
+      const message = `Movie with id ${id} could not be found`
+      next({ status, message })
+    }
   })
-  // console.log(movie);
-  // if(!movie){
-  //   const status = 404
-  //   const message = `Movie with id ${id} could not be found`
-  //   next({ status, message })
-  // }
-
-  next()
 }
 
 function cleanse (req, res, next) {

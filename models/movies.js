@@ -3,44 +3,32 @@ const env = process.env.NODE_ENV || 'development'
 const knex = require('../db/db')
 
 
-
-function _all () {
+function getAll () {
   return knex('movies')
 }
 
-function _findById (id) {
-  return (el) => el.id == id
-}
-
-function getAll () {
-  return _all()
-}
-
 function getOne (id) {
-  return _all().then(movies => {
-    return movies.find(_findById(id))
-  })
+  return knex('movies')
+  .where('movies.id', id)
 }
 
 function create (body) {
-  return _all()
+  return knex('movies')
   .insert(body)
   .returning('*')
-  .then(([movie]) => movie)
 }
 
 function update (id, body) {
-  return _all()
+  return knex('movies')
     .where('movies.id', id)
     .update(body)
     .returning('*')
-    .then(([movie]) => movie)
 }
 
 function destroy (id) {
-  return _all()
+  return knex('movies')
     .where('movies.id', id)
     .del()
 }
 
-module.exports = { getAll, getOne, create, update, destroy, _findById }
+module.exports = { getAll, getOne, create, update, destroy, }
