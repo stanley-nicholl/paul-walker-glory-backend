@@ -1,5 +1,5 @@
 const model = require('../models/movies')
-const fields = ['title', 'director', 'year', 'rating', 'posterURL']
+const fields = ['title', 'director', 'year', 'rating', 'posterURL', 'trailerEmbed', 'storyline']
 
 function getAll(req, res, next) {
   model.getAll().then(movies => {
@@ -16,6 +16,7 @@ function getOne(req, res, next) {
 
 function create(req, res, next) {
   const body = req.body
+  console.log(body.trailerEmbed, body.storyline);
   model.create(body).then(movie => {
     res.status(201).json({ movie })
   })
