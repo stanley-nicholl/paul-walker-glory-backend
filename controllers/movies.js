@@ -25,7 +25,6 @@ function update(req, res, next) {
   const id = req.params.id
   const body = req.body
   model.update(id, body).then(movie => {
-    console.log('test');
     res.status(200).json({ movie })
   })
 }
@@ -39,10 +38,8 @@ function destroy (req, res, next) {
 
 function doesItExist (req, res, next) {
   const id = req.params.id
-  console.log('before then');
   model.getOne(id).then(movie => {
     if(movie.length){
-      console.log('short');
       next()
     }else{
       const status = 404

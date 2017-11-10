@@ -13,12 +13,14 @@ function getOne (id) {
 }
 
 function create (body) {
+  console.log(body);
   return knex('movies')
   .insert(body)
   .returning('*')
 }
 
 function update (id, body) {
+  console.log(body);
   return knex('movies')
     .where('movies.id', id)
     .update(body)
